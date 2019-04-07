@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const logger = require('morgan')
 const moment = require('moment')
+const exphbs = require('express-handlebars')
+
+
 
 // Require axios and cheerio. This makes the scraping possible
 const axio = require('axios');
@@ -17,6 +20,9 @@ const movieScraped = require('./models/scrapes')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(logger("dev"));
+// Set Handlebars as the default templating engine.
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 // Make public a static folder
 app.use(express.static("public"));
 
@@ -65,7 +71,7 @@ app.get("/scrape", function(req, res) {
     });
    
     //set the root route
-    app.get('/', (req, res)=>{
+    app.get('/all', (req, res)=>{
          movieScraped.find({}).then(data=>{
               res.json(data)
          })
