@@ -28,27 +28,26 @@ app.get("/scrape", function(req, res) {
        // Load the html body from axios into cheerio
        let $ = cheerio.load(res.data);
 
-       let responseArr = []
-      
        // For each element with a "title" class
        $('.ribbonize').each(function(i, element) {
-   const $element = $(element)
-  const $image = $element.find('figure img').attr('src');
-  const $title = $element.find('figcaption div a').text();
-  const $rating = $element.find('.freedive-titlePoster__hoverRating span').text();
-  const $desc = $element.find('.freedive-titlePoster__hoverDescription').text();
-  const $year = $element.find('.freedive-titlePoster__hoverYear').text()
-  const $duration = $element.find('.freedive-titlePoster__hoverDuration').text()
-  console.log($title.trim())
-  console.log($image.trim())
-  console.log($desc.trim())
-  console.log($rating.trim())
-  console.log($year.trim())
-  console.log($duration.trim())
-  console.log('\n........................................\n')
-      });
-      
-   });
+              const $element = $(element)
+              const $image = $element.find('figure img').attr('src');
+              const $title = $element.find('figcaption div a').text();
+              const $rating = $element.find('.freedive-titlePoster__hoverRating span').text();
+              const $desc = $element.find('.freedive-titlePoster__hoverDescription').text();
+              const $year = $element.find('.freedive-titlePoster__hoverYear').text()
+              const $duration = $element.find('.freedive-titlePoster__hoverDuration').text()
+
+           //store scraped movies into database
+             db.scrapedMovies.create({title: $title.trim(),
+             image :$image.trim(),
+             desc:$desc.trim(),
+             ratinig:$rating.trim(),
+             year:$year.trim(),
+             duration:$duration.trim()
+             
+          });
+     });
       
      // Send a "Scrape Complete" message to the browser
       res.send("Scrape Complete");
