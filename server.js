@@ -1,10 +1,12 @@
 // Dependencies
+require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const logger = require('morgan')
 const moment = require('moment')
 const exphbs = require('express-handlebars')
+
 
 
 
