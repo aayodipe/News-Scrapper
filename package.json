@@ -23,6 +23,7 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "mongoose": "^5.4.21",
+    "node-fetch": "^2.3.0",
     "nodemon": "^1.18.10"
   }
 }
