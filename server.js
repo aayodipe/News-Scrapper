@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const logger = require('morgan')
 const moment = require('moment')
+
 // Require axios and cheerio. This makes the scraping possible
 const axio = require('axios');
 const cheerio = require('cheerio')
@@ -69,7 +70,18 @@ app.get("/scrape", function(req, res) {
               res.json(data)
          })
     })
-
+   app.get('/searchMovie/:title', (req,res)=>{
+        title = req.params.title;
+        movieScraped.findOne({title:title}, (err,found)=>{
+             if(err) {
+                  console.log(err),
+                  res.send('Can\'t find movie')
+             }else{ 
+                  console.log(found)
+             res.send(found)
+             }
+        })
+   })
 
 
 app.listen(PORT, ()=>{
