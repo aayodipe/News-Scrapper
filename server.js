@@ -71,11 +71,13 @@ app.get("/scrape", function(req, res) {
     });
    
     //set the root route
-    app.get('/all', (req, res)=>{
-         movieScraped.find({}).then(data=>{
-              res.json(data)
+    app.get('/', (req, res)=>{
+         movieScraped.find({}).then(movies=>{
+              res.render('index',{movies, style: 'index'} )
          })
     })
+
+ 
    app.get('/searchMovie/:title', (req,res)=>{
         title = req.params.title;
         movieScraped.findOne({title:title}, (err,found)=>{

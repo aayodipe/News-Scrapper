@@ -1,13 +1,16 @@
+   <div class="row">
  {{#each movies}}
-  <div class="card" style="width: 18rem;">
+  <div class="card m-5 col-sm-3" style="width: 18rem">
      <img src={{image}} class="card-img-top" alt={{title}}>
-     <div class="card-body">
+     <div class="card-body" style="background-color: rgba(236, 232, 232, 0.418); color : rgb(116, 70, 70)">
           <h5 class="card-title">{{title}}</h5>
-          <p class="card-text">{{desc}}</p>
-          <p class="card-text">{{rating}}</p>
-          <p class="card-text">{{year}}</p>
-          <p class="card-text">{{duration}}</p>
+          <p class="card-text">Desc: {{desc}}</p>
+          <p class="card-text">Rating: {{rating}}</p>
+          <p class="card-text"> Year: {{year}}</p>
+          <p class="card-text">Duration: {{duration}}</p>
      </div>
    </div>
+   
 {{/each}}
+</div>
  
