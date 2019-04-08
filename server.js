@@ -28,10 +28,8 @@ app.use(express.static("public"));
 
 // Connect to the Mongo DB
 // mongoose.connect("mongodb://localhost/imdbFreediveMovies", { useNewUrlParser: true });
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/imdbFreediveMovies"
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/imdbFreediveMovies"
 mongoose.connect(MONGODB_URI);
-
-
 
 // Scrape freedive movies from imdb.com and place it into the mongodb db
 app.get("/scrape", function(req, res) {
