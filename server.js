@@ -13,7 +13,7 @@ const cheerio = require('cheerio')
 // initialize express app
 const app = express()
 //Set Port to 3000
-const PORT = process.argv.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 //require Other packages
 const movieScraped = require('./models/scrapes')
 const commentPosted = require('./models/comment')
@@ -27,9 +27,11 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/imdbFreediveMovies", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost/imdbFreediveMovies", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/imdbFreediveMovies"
+mongoose.connect(MONGODB_URI);
 
-//Scrape Fox News Database
+
 
 // Scrape freedive movies from imdb.com and place it into the mongodb db
 app.get("/scrape", function(req, res) {
