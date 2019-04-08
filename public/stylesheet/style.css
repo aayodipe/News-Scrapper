@@ -2,3 +2,23 @@ body{
      color:red;
      background-image: url('../images/theater-img.jpg')
 }
+
+.header{
+     font-family: 'Bad Script', cursive;
+     font-size: 4rem;
+     color:rgb(235, 116, 116)
+}
+.user-comment-body{
+     border:solid 2px rgb(182, 181, 181);
+     margin:10px;
+
+}
+.comment-header{
+background-color: rgba(105, 103, 103, 0.555);
+color:black;
+border:solid 2px black 
+}
+.comment-body{
+     background-color: rgb(240, 231, 231);
+color:black
+}

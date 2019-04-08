@@ -1,24 +1,43 @@
-{{!-- Display image data from database --}}
+{{!-- Display movies data from database --}}
 <div class="row">
      {{#each movies}}
-     <div class="card m-5 col-sm-3" style="width: 18rem">
-          <img src={{image}} class="card-img-top" alt={{title}}>
+
+     <div class="card m-5 ml-3  col-sm-12 col-md-3" style="width: 18rem">
+          <img src={{image}} class="card-img-top" alt="{{title}} movie">
           <div class="card-body" style="background-color: rgba(236, 232, 232, 0.418); color : rgb(116, 70, 70)">
-               <h5 class="card-title">{{title}}</h5>
-               <p class="card-text">Desc: {{desc}}</p>
-               <p class="card-text">Rating: {{rating}}</p>
-               <p class="card-text"> Year: {{year}}</p>
-               <p class="card-text">Duration: {{duration}}</p>
+               <h5 class="card-title title">{{title}}</h5>
+               <p class="card-text desc">Desc: {{desc}}</p>
+               <p class="card-text rating">Rating: {{rating}}</p>
+               <p class="card-text year"> Year: {{year}}</p>
+               <p class="card-text duration">Duration: {{duration}}</p>
           </div>
      </div>
 
      {{/each}}
 </div>
-<br />
-<br />
+<br>
+<br>
+<br>
+<div class="display-comment ">
+     {{#each comments}}
+     <div class="user-comment-body bg-white col-8">
+         <div class="row comment-header ">
+              <div class="col-2">{{username}}</div>
+               <div class="col-8">commented on {{date}}</div>
+               <div class="col-2 float-right"> + <i class="far fa-smile"> ...</i> </div>
+         </div>
+         <div class="comment-body row">
+              <p class="comments ml-4">{{comment}}</p>
+         </div>
+     </div>
+     {{/each}}
+</div>
+{{!-- // comment  Sections --}}
 <div class="comment col-sm-5">
+     <div class="comment-header text-white">
      <h3>Leave your comment about the one you have seen or would like to see.</h3>
      <p>Your email address will not be published. Required fields are marked *</p>
+     </div>
 
      <form>
           <div class="form-group">
@@ -36,7 +55,7 @@
                <input class="form-control" id="email" placeholder="Email">
           </div>
 
-          <input type="submit" class="submit btn btn-primary >
+          <input type="submit" class="submit btn btn-primary"  id="submit">
 </form>
 </div>
  

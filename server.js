@@ -7,9 +7,6 @@ const logger = require('morgan')
 const moment = require('moment')
 const exphbs = require('express-handlebars')
 
-
-
-
 // Require axios and cheerio. This makes the scraping possible
 const axio = require('axios');
 const cheerio = require('cheerio')
@@ -19,6 +16,7 @@ const app = express()
 const PORT = process.argv.PORT || 3000;
 //require Other packages
 const movieScraped = require('./models/scrapes')
+const commentPosted = require('./models/comment')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(logger("dev"));
@@ -48,18 +46,17 @@ app.get("/scrape", function(req, res) {
               const $title = $element.find('figcaption div a').text();
               const $rating = $element.find('.freedive-titlePoster__hoverRating span').text();
               const $desc = $element.find('.freedive-titlePoster__hoverDescription').text();
-              const $year = $element.find('.freedive-titlePoster__hoverYear').text().moment().format()
+              const $year = $element.find('.freedive-titlePoster__hoverYear').text()
               const $duration = $element.find('.freedive-titlePoster__hoverDuration').text()
 
-          //     store scraped movies into database
-                  movieScraped.create({
+           //     store scraped movies into database
+                 movieScraped.create({
                  title:$title.trim(),
                  image :$image.trim(),
                  desc:$desc.trim(),
                  rating:$rating.trim(),
                  year:$year.trim(),
                  duration:$duration.trim()
-                 
               })
               .then(movies =>{
                   res.json(movies)
@@ -74,12 +71,18 @@ app.get("/scrape", function(req, res) {
    
     //set the root route
     app.get('/', (req, res)=>{
+         //find movies
          movieScraped.find({}).then(movies=>{
-              res.render('index',{movies, style: 'index'} )
+              //find comments
+          commentPosted.find({}).then(comments=>{
+           // Display both comments and movies
+             res.render('index',{comments, movies, style: 'index'} )
+            
          })
-    })
+          
+     })
+     })
 
- 
    app.get('/searchMovie/:title', (req,res)=>{
         title = req.params.title;
         movieScraped.findOne({title:title}, (err,found)=>{
@@ -92,6 +95,33 @@ app.get("/scrape", function(req, res) {
              }
         })
    })
+ 
+//Post user comment to database
+   app.post('/submit', (req, res)=>{
+   
+        console.log(req.body)
+        commentPosted.create({
+           username : req.body.username,
+           email : req.body.email,
+           comment : req.body.comment,
+           date : req.body.userName,
+       })
+       .then(comments =>{
+           res.json(comments)
+       })
+       .catch(err =>{
+            console.log(err.message)
+       });
+
+   
+     })
+
+   app.get('/submit', (req, res)=>{
+     commentPosted.find({}).then(comments=>{
+          res.json(comments)         
+     })
+   })
+
 
 
 app.listen(PORT, ()=>{

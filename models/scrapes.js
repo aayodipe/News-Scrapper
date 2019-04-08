@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 //Sets the schema of the movie data
 const scrapedSchema = new Schema({
-     movieId: ObjectId,
+     commentId: ObjectId,
      title:{
           type: String,
            unique:true,
@@ -13,7 +13,7 @@ const scrapedSchema = new Schema({
      image :String,
      desc:String,
      rating:String,
-     year:Date,
+     year:String,
      duration:String
 })
 
