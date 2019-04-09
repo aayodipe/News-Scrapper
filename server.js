@@ -35,9 +35,10 @@ mongoose.connect(MONGODB_URI);
 app.get("/scrape", function(req, res) {
      const url = 'https://www.imdb.com/freedive/?ref_=nv_tp_fdv'
      // Make a request via axios for the news section of `ycombinator`
-     axios.get(url).then(function(res) {
+     axios.get(url).then(function(result) {
+          const results = [];
        // Load the html body from axios into cheerio
-       let $ = cheerio.load(res.data);
+       let $ = cheerio.load(result.data);
 
        // For each element with a "title" class
        $('.ribbonize').each(function(i, element) {
@@ -49,23 +50,26 @@ app.get("/scrape", function(req, res) {
               const $year = $element.find('.freedive-titlePoster__hoverYear').text()
               const $duration = $element.find('.freedive-titlePoster__hoverDuration').text()
 
+              results.push({
+               title:$title.trim(),
+               image :$image.trim(),
+               desc:$desc.trim(),
+               rating:$rating.trim(),
+               year:$year.trim(),
+               duration:$duration.trim()
+            });
+
            //     store scraped movies into database
-                 movieScraped.create({
-                 title:$title.trim(),
-                 image :$image.trim(),
-                 desc:$desc.trim(),
-                 rating:$rating.trim(),
-                 year:$year.trim(),
-                 duration:$duration.trim()
-              })
-              .then(movies =>{
-                  res.json(movies)
-              })
-              .catch(err =>{
-                   console.log(err.message)
-              });
-    
           })
+          return results;
+     }).then((results) => {
+          movieScraped.create(results)
+          .then(movies =>{
+              res.send('Scrape complete')
+          })
+          .catch(err =>{
+               res.send(err);
+          });
      })
     });
    
